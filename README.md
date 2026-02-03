@@ -16,6 +16,27 @@
 
 ---
 
+## ⚠️ Personal Project Notice
+
+**This is a personal project that is highly customized for my specific use case.** It will **not** work out of the box for others without significant modifications.
+
+### What You Need to Change:
+- **Discord Client ID** - Hardcoded in the source (`DISCORD_CLIENT_ID` in main.ts)
+- **MAL OAuth Credentials** - Requires your own MAL API application registration
+- **Steam API Key** - Must use your own Steam Web API key
+- **Website Data Paths** - File paths are specific to my local setup
+- **Extension IDs** - Chrome extension IDs are registered to my browser
+- **WebSocket Ports** - May conflict with your existing services
+
+If you want to use this code, you'll need to:
+1. Search for hardcoded values in the codebase and replace them with your own
+2. Register your own applications with Discord, MAL, and Steam
+3. Update file paths and configuration to match your system
+
+> *This repository is primarily for my own reference and backup. Feel free to use it as inspiration, but expect to do significant customization work.*
+
+---
+
 ## 🎬 What is FoxCLI?
 
 **FoxCLI** is your personal anime companion that bridges the gap between your streaming experience and Discord. Watch anime on any site (Crunchyroll, Netflix, or any streaming platform) and your Discord status will automatically update with what you're watching — episode, title, and progress — all in real-time.
@@ -89,41 +110,6 @@ foxcli/
     └── public/
         └── data.json             # Exported stats
 ```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js 18+ and npm
-- Discord desktop app installed
-- Chrome or Edge browser (for extension)
-
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/foxcli.git
-cd foxcli
-
-# Install dependencies
-npm install
-
-# Build the application
-npm run build
-
-# Run in development mode
-npm run dev
-```
-
-### Setting Up
-
-1. **Discord RPC**: Works automatically — just make sure Discord is running
-2. **MyAnimeList**: Go to Settings → MAL Integration → Connect Account
-3. **Browser Extension**: 
-   - Open Chrome/Edge → Extensions → Developer Mode ON
-   - Load unpacked → Select `extension/` folder
-4. **Steam Integration**: Go to Settings → Steam & Sales → Add your API key
 
 ---
 
@@ -259,18 +245,6 @@ npm run build:win
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
 ## 📝 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
@@ -285,7 +259,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - ⚠️ You can't hold the author liable
 - ⚠️ There's no warranty
 
-**TL;DR**: Anyone can use your code, but they must give you credit and can't claim it's their own original work.
+**Note**: While the license allows reuse, this codebase contains personal configurations and hardcoded values that require significant customization to work for others.
 
 ---
 
@@ -303,8 +277,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-[![GitHub](https://img.shields.io/badge/GitHub-@YourUsername-181717?style=flat-square&logo=github)](https://github.com/yourusername)
-[![Discord](https://img.shields.io/badge/Discord-YourTag-5865F2?style=flat-square&logo=discord)](https://discord.com)
+[![GitHub](https://img.shields.io/badge/GitHub-@Foxemsx-181717?style=flat-square&logo=github)](https://github.com/Foxemsx)
+[![Discord](https://img.shields.io/badge/Discord-767347091873595433-5865F2?style=flat-square&logo=discord)](https://discord.com/users/767347091873595433)
 
 </div>
 
