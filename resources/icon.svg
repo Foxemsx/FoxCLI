@@ -1,0 +1,28 @@
+<svg viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle for better visibility -->
+  <circle cx="512" cy="512" r="480" fill="#1a1a2e"/>
+  
+  <!-- Fox ears -->
+  <path d="M192 128L288 448L128 384L192 128Z" fill="#E74C3C"/>
+  <path d="M832 128L736 448L896 384L832 128Z" fill="#E74C3C"/>
+  <!-- Inner ears -->
+  <path d="M224 192L288 416L192 368L224 192Z" fill="#C0392B"/>
+  <path d="M800 192L736 416L832 368L800 192Z" fill="#C0392B"/>
+  
+  <!-- Face -->
+  <ellipse cx="512" cy="608" rx="320" ry="288" fill="#E74C3C"/>
+  
+  <!-- Snout -->
+  <ellipse cx="512" cy="736" rx="160" ry="128" fill="#ffffff"/>
+  
+  <!-- Nose -->
+  <ellipse cx="512" cy="672" rx="64" ry="48" fill="#2C3E50"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="384" cy="544" rx="48" ry="64" fill="#2C3E50"/>
+  <ellipse cx="640" cy="544" rx="48" ry="64" fill="#2C3E50"/>
+  
+  <!-- Eye highlights -->
+  <ellipse cx="400" cy="528" rx="16" ry="24" fill="#ffffff" opacity="0.8"/>
+  <ellipse cx="656" cy="528" rx="16" ry="24" fill="#ffffff" opacity="0.8"/>
+</svg>

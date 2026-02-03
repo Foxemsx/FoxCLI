@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  
+  /* Accent Colors (default: blurple) */
+  --accent-primary: #5865F2;
+  --accent-hover: #4752C4;
+  --accent-active: #3C45A5;
+  
+  /* Background Theme (default: solid) */
+  --bg-primary: #1e1f22;
+  --bg-secondary: #2b2d31;
+  --bg-tertiary: #313338;
+  --bg-elevated: #383a40;
+  
+  /* Text Colors */
+  --text-primary: #f2f3f5;
+  --text-secondary: #b5bac1;
+  --text-muted: #949ba4;
+  
+  /* Status Colors */
+  --status-online: #23a55a;
+  --status-idle: #f0b232;
+  --status-dnd: #f23f43;
+  --status-offline: #80848e;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+}
+
+/* Theme transition for smooth color changes - only on specific properties */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Apply transitions only to elements that need them */
+.transition-theme {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-duration: 300ms;
+  transition-timing-function: ease-in-out;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Custom title bar drag region */
+.titlebar {
+  -webkit-app-region: drag;
+}
+
+.titlebar button {
+  -webkit-app-region: no-drag;
+}
+
+/* Background Theme Classes */
+.bg-theme-solid {
+  background: var(--bg-primary);
+}
+
+.bg-theme-glass {
+  background: linear-gradient(135deg, rgba(30, 31, 34, 0.9), rgba(43, 45, 49, 0.85));
+  backdrop-filter: blur(12px);
+}
+
+.bg-theme-oled {
+  background: #000000;
+}
+
+.bg-theme-mesh {
+  background: 
+    radial-gradient(at 40% 20%, var(--accent-primary) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(88, 101, 242, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(88, 101, 242, 0.1) 0px, transparent 50%),
+    var(--bg-primary);
+}
+
+/* Accent color utility classes */
+.accent-text {
+  color: var(--accent-primary);
+}
+
+.accent-bg {
+  background-color: var(--accent-primary);
+}
+
+.accent-bg-hover:hover {
+  background-color: var(--accent-hover);
+}
+
+.accent-border {
+  border-color: var(--accent-primary);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

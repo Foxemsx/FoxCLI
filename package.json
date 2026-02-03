@@ -1,0 +1,64 @@
+{
+  "name": "foxcli",
+  "productName": "FoxCLI",
+  "version": "0.1.0",
+  "description": "A powerful anime tracking companion with Discord Rich Presence integration",
+  "author": "FoxCLI Team",
+  "license": "MIT",
+  "private": true,
+  "main": "app/dist/main.js",
+  "scripts": {
+    "generate-icons": "npx electron-icon-builder --input=./resources/icon-1024.png --output=./resources",
+    "dev:renderer": "vite --config app/vite.config.ts",
+    "dev:electron": "wait-on tcp:5173 && npm run build:electron && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .",
+    "dev": "concurrently -k -n renderer,electron -c magenta,cyan \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:all": "node dev-all.js",
+    "build:renderer": "vite build --config app/vite.config.ts",
+    "build:electron": "tsc -p app/tsconfig.main.json && tsc -p app/tsconfig.preload.json",
+    "build": "npm run build:renderer && npm run build:electron",
+    "preview": "vite preview --config app/vite.config.ts",
+    "build:win": "electron-builder --win"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "discord-rpc": "^4.0.1",
+    "express": "^5.2.1",
+    "framer-motion": "^11.0.3",
+    "lucide-react": "^0.469.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.5.0",
+    "ws": "^8.17.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.10.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/ws": "^8.5.10",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "boxen": "^7.1.1",
+    "concurrently": "^9.1.0",
+    "cross-env": "^7.0.3",
+    "electron": "^33.0.1",
+    "electron-builder": "^26.4.0",
+    "electron-icon-builder": "^2.0.1",
+    "postcss": "^8.4.49",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.yourname.foxcli",
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    }
+  }
+}
