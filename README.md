@@ -45,6 +45,30 @@ If you want to use this code, you'll need to:
 
 ---
 
+## 📸 Screenshots
+
+<div align="center">
+
+**Home Dashboard**
+
+<img src="https://i.imgur.com/hfaf6Ih.png" alt="FoxCLI Home" width="800"/>
+
+**Discord RPC Interface**
+
+<img src="https://i.imgur.com/NIOwfhr.png" alt="Discord RPC" width="800"/>
+
+**Anime Statistics**
+
+<img src="https://i.imgur.com/BUOFDY8.png" alt="Statistics Overview" width="800"/>
+
+**Seasonal Breakdown**
+
+<img src="https://i.imgur.com/OLrt3oF.png" alt="Seasonal Statistics" width="800"/>
+
+</div>
+
+---
+
 ## ✨ Features
 
 ### 🎥 Automatic Discord Rich Presence
