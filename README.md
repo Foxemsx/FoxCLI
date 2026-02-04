@@ -1,6 +1,6 @@
 <div align="center">
 
-![FoxCLI Logo](./resources/icon-128.png)
+![FoxCLI Logo](https://i.imgur.com/jvG5XB6.png)
 
 # <span style="font-size: 72px; font-weight: 900;">FoxCLI</span>
 
