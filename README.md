@@ -1,23 +1,18 @@
 <div align="center">
-  ![FoxCLI Logo](https://i.imgur.com/jvG5XB6.png)
-  
-  # **FoxCLI**
-  
-  ### ✨ Sync Your Anime Watching Activity to Discord Rich Presence 🦊
-  
-  <div>
-    
-  ![Electron](https://img.shields.io/badge/Electron-31-47848F?style=for-the-badge&logo=electron&logoColor=white)
-  ![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)
-  ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-  ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white)
-  ![Discord](https://img.shields.io/badge/Discord%20RPC-Ready-5865F2?style=for-the-badge&logo=discord&logoColor=white)
-  ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-  ![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
-  
-  </div>
-  
-  > *Never manually update your Discord status again. FoxCLI does it automatically as you watch.*
+
+![FoxCLI Logo](https://i.imgur.com/jvG5XB6.png)
+
+# **FoxCLI**
+
+### **Sync Your Anime Watching Activity to Discord Rich Presence 🦊**
+
+[![Electron](https://img.shields.io/badge/Electron-31-47848F?style=for-the-badge&logo=electron&logoColor=white)](https://electronjs.org)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
+[![Discord](https://img.shields.io/badge/Discord%20RPC-Ready-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+
+> *Never manually update your Discord status again. FoxCLI does it automatically as you watch.*
 
 </div>
 
