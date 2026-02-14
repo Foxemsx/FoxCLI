@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://i.imgur.com/jvG5XB6.png" width="150" alt="FoxCLI Logo"/>
+  ![FoxCLI Logo](https://i.imgur.com/jvG5XB6.png)
   
   # **FoxCLI**
   
@@ -21,17 +21,7 @@
 
 </div>
 
----
 
-<div align="center">
-
-| 📥 Downloads | ⭐ Stars | 🍴 Forks | 👀 Watchers |
-|:---:|:---:|:---:|:---:|
-| ![Downloads](https://img.shields.io/badge/dynamic/json?label=Downloads&query=assets[?(@.name.includes('win'))].download_count&url=https://api.github.com/repos/Foxemsx/foxcli/releases/latest) | ![Stars](https://img.shields.io/github/stars/Foxemsx/foxcli) | ![Forks](https://img.shields.io/github/forks/Foxemsx/foxcli) | ![Watchers](https://img.shields.io/github/watchers/Foxemsx/foxcli) |
-
-</div>
-
----
 
 ## ⚠️ | Personal Project Notice
 
