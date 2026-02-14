@@ -201,8 +201,8 @@ const isDev = !app.isPackaged;
 
 // Get the proper icon path based on platform
 const getIconPath = () => {
-  // In development, __dirname is app/dist, so we go up 2 levels to project root
-  // In production, icons should be bundled with the app in resourcesPath
+  // In development, __dirname is app/dist, so we go up to project root
+  // In production (packaged), use process.resourcesPath
   const basePath = isDev 
     ? path.join(__dirname, '..', '..', 'resources', 'icons')
     : path.join(process.resourcesPath, 'icons');
@@ -212,7 +212,6 @@ const getIconPath = () => {
   } else if (process.platform === 'darwin') {
     return path.join(basePath, 'mac', 'icon.icns');
   } else {
-    // Linux uses PNG
     return path.join(basePath, 'png', '256x256.png');
   }
 };
@@ -256,16 +255,22 @@ type RpcStatus = {
   };
 };
 
-const getRendererUrl = () => {
+const getRendererPath = () => {
   if (!app.isPackaged) {
-    return process.env.VITE_DEV_SERVER_URL ?? 'http://localhost:5173';
+    return null; // Use dev server URL
   }
-  return `file://${path.join(__dirname, '../dist/renderer/index.html')}`;
+  // In production packaged app, files are in asar at app/dist/renderer/
+  // app.getAppPath() returns the asar path, so we append the relative path
+  return path.join(app.getAppPath(), 'app', 'dist', 'renderer', 'index.html');
 };
 
 const createWindow = () => {
   const preloadPath = path.join(__dirname, 'preload.js');
   const iconPath = getIconPath();
+  
+  console.log('[FoxCLI] Creating window, isDev:', isDev, 'isPackaged:', app.isPackaged);
+  console.log('[FoxCLI] App path:', app.getAppPath());
+  console.log('[FoxCLI] __dirname:', __dirname);
   
   // Try to load high-res PNG first for better scaling, then fallback to ICO or base64
   const pngIconPath = isDev 
@@ -306,7 +311,28 @@ const createWindow = () => {
   });
 
   mainWindow.setMenu(null);
-  mainWindow.loadURL(getRendererUrl());
+  
+  // Use loadFile for production, loadURL for dev
+  const rendererPath = getRendererPath();
+  if (rendererPath) {
+    console.log('[FoxCLI] Loading renderer from:', rendererPath);
+    mainWindow.loadFile(rendererPath).catch(err => {
+      console.error('[FoxCLI] Failed to load renderer:', err);
+    });
+  } else {
+    const devUrl = process.env.VITE_DEV_SERVER_URL ?? 'http://localhost:5173';
+    console.log('[FoxCLI] Loading renderer from dev server:', devUrl);
+    mainWindow.loadURL(devUrl);
+  }
+
+  // Log any page errors
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('[FoxCLI] Failed to load:', errorCode, errorDescription);
+  });
+
+  mainWindow.webContents.on('render-process-gone', (event, details) => {
+    console.error('[FoxCLI] Render process gone:', details);
+  });
 
   if (isDev) {
     mainWindow.webContents.openDevTools({ mode: 'detach' });
@@ -328,7 +354,7 @@ const createWindow = () => {
       mainWindow?.hide();
       
       if (settingsStore.get('showNotifications')) {
-        showNotification('FoxCLI', 'Minimized to tray. Discord RPC still active.');
+        showNotification('FoxCLI Running in Background', 'App minimized to tray. Discord RPC remains active. Click to reopen.');
       }
     }
   });
@@ -2301,10 +2327,33 @@ ipcMain.handle('get-website-server-status', () => {
 });
 
 // Notification helper
-function showNotification(title: string, body: string) {
+function showNotification(title: string, body: string, silent = false) {
   if (!settingsStore.get('showNotifications')) return;
   
-  new Notification({ title, body }).show();
+  // Get icon for notification
+  let icon: Electron.NativeImage | undefined;
+  const iconPath = app.isPackaged
+    ? path.join(process.resourcesPath, 'icons', 'png', '64x64.png')
+    : path.join(__dirname, '..', '..', 'resources', 'icons', 'png', '64x64.png');
+  
+  if (fs.existsSync(iconPath)) {
+    icon = nativeImage.createFromPath(iconPath);
+  }
+  
+  const notification = new Notification({
+    title,
+    body,
+    icon,
+    silent,
+    timeoutType: 'default',
+  });
+  
+  notification.on('click', () => {
+    mainWindow?.show();
+    mainWindow?.focus();
+  });
+  
+  notification.show();
 }
 
 // Create system tray
