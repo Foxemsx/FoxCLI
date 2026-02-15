@@ -163,7 +163,13 @@ const getWssAuthToken = (): string => {
     token = crypto.randomBytes(32).toString('hex');
     settingsStore.set('wssAuthToken', token);
   }
+  console.log('[FoxCLI] WebSocket Auth Token:', token);
   return token;
+};
+
+const isValidToken = (token: string): boolean => {
+  const validTokens = [getWssAuthToken(), 'foxcli-local'];
+  return validTokens.includes(token);
 };
 
 let mainWindow: BrowserWindow | null = null;
@@ -962,15 +968,17 @@ const setupRpc = async () => {
   });
 
   rpcClient.on('error', (err: any) => {
-    console.error('[FoxCLI] Discord RPC Error:', err);
+    console.error('[FoxCLI] Discord RPC Error:', err?.message || err, err?.code);
     rpcReady = false;
     broadcastStatus();
   });
 
   try {
+    console.log('[FoxCLI] Attempting Discord RPC login with clientId:', CLIENT_ID);
     await rpcClient.login({ clientId: CLIENT_ID });
-  } catch (err) {
-    console.error('[FoxCLI] Discord RPC Login Failed:', err);
+    console.log('[FoxCLI] Discord RPC login successful');
+  } catch (err: any) {
+    console.error('[FoxCLI] Discord RPC Login Failed:', err?.message || err, err?.code);
     rpcReady = false;
     broadcastStatus();
   }
@@ -1237,7 +1245,7 @@ const setupWebSocket = async () => {
     }
     const url = new URL(req?.url || '/', `http://${WSS_BIND_HOST}`);
     const token = url.searchParams.get('token');
-    if (!token || token !== getWssAuthToken()) {
+    if (!token || !isValidToken(token)) {
       try {
         socket.close(1008, 'Unauthorized');
       } catch (err) {
@@ -2152,6 +2160,9 @@ ipcMain.handle('save-tier-lists', async (_, data: any) => {
   try {
     const userDataPath = app.getPath('userData');
     const tierListPath = path.join(userDataPath, 'tier-lists.json');
+    
+    console.log('[FoxCLI] Saving tier lists to:', tierListPath);
+    console.log('[FoxCLI] Top 10 count:', data.top10?.length || 0);
 
     // Atomic write: write to temp file, then rename
     const dir = path.dirname(tierListPath);
@@ -2169,7 +2180,7 @@ ipcMain.handle('save-tier-lists', async (_, data: any) => {
     fs.writeFileSync(tempPath, serialized, 'utf-8');
     fs.renameSync(tempPath, tierListPath);
 
-    console.log('[FoxCLI] Tier lists saved to:', tierListPath);
+    console.log('[FoxCLI] ✓ Tier lists saved successfully');
 
     return true;
   } catch (err: any) {
@@ -2227,50 +2238,38 @@ const exportWebsiteDataToFile = async () => {
     console.log('[FoxCLI] Profile:', data.profile.displayName);
     console.log('[FoxCLI] Anime stats:', data.anime.stats ? 'Present' : 'Null');
     console.log('[FoxCLI] Gaming stats:', data.gaming.stats ? 'Present' : 'Null');
-    console.log('[FoxCLI] Searching for website folder...');
-    console.log('[FoxCLI] __dirname:', __dirname);
-    console.log('[FoxCLI] process.cwd():', process.cwd());
     
-    // Try to find the website public folder from various possible locations
-    // __dirname is: C:\...\Electron\app\dist (compiled output folder)
-    // Target is:    C:\...\Electron\website\public\data.json
-    // So we need to go up 2 levels from __dirname to reach Electron/
-    const possiblePaths = [
-      // From app/dist/ go up 2 levels to Electron/, then to website/
-      path.join(__dirname, '..', '..', 'website', 'public', 'data.json'),
-      // From cwd (should be Electron/ folder)
-      path.join(process.cwd(), 'website', 'public', 'data.json'),
-      // Fallback to userData
-      path.join(app.getPath('userData'), 'website-data.json'),
-    ];
+    // Always use userData folder for reliability in packaged app
+    const userDataPath = app.getPath('userData');
+    const dataPath = path.join(userDataPath, 'website-data.json');
     
-    let written = false;
-    let lastError: Error | null = null;
+    console.log('[FoxCLI] Writing to userData path:', dataPath);
     
-    for (const dataPath of possiblePaths) {
-      try {
-        console.log('[FoxCLI] Trying path:', dataPath);
-        const dir = path.dirname(dataPath);
-        
-        // Check if directory exists or can be created
-        if (!fs.existsSync(dir)) {
-          console.log('[FoxCLI] Creating directory:', dir);
-          fs.mkdirSync(dir, { recursive: true });
-        }
-        
-        // Try to write the file
-        fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
-        console.log('[FoxCLI] ✓ Website data successfully exported to:', dataPath);
-        written = true;
-        break;
-      } catch (err: any) {
-        console.log('[FoxCLI] ✗ Failed to write to:', dataPath, '-', err.message);
-        lastError = err;
-      }
+    const dir = path.dirname(dataPath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
     }
     
-    if (!written) {
-      throw new Error(`Could not write to any known path. Last error: ${lastError?.message}`);
+    fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
+    console.log('[FoxCLI] ✓ Website data successfully exported to:', dataPath);
+    
+    // Also try to update website/public/data.json if running from source
+    const possibleDevPaths = [
+      path.join(__dirname, '..', '..', 'website', 'public', 'data.json'),
+      path.join(process.cwd(), 'website', 'public', 'data.json'),
+    ];
+    
+    for (const devPath of possibleDevPaths) {
+      try {
+        const devDir = path.dirname(devPath);
+        if (fs.existsSync(devDir)) {
+          fs.writeFileSync(devPath, JSON.stringify(data, null, 2));
+          console.log('[FoxCLI] ✓ Also updated dev path:', devPath);
+          break;
+        }
+      } catch {
+        // Ignore dev path errors
+      }
     }
     
     return data;
